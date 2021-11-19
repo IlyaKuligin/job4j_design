@@ -14,14 +14,24 @@ public class MemStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean replace(String id, T model) {
-        mem.replace(id, model);
-        return true;
+        boolean rsl = false;
+        try {
+            rsl = mem.get(id).equals(mem.replace(id, model));
+        } catch (NullPointerException | ClassCastException | IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return rsl;
     }
 
     @Override
     public boolean delete(String id) {
-        mem.remove(id);
-        return true;
+        boolean rsl = false;
+        try {
+            rsl = mem.get(id).equals(mem.remove(id));
+        } catch (NullPointerException | ClassCastException | IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return rsl;
     }
 
     @Override
