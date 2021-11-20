@@ -124,4 +124,11 @@ public class SimpleArrayListTest {
         list.add(0);
         iterator.next();
     }
+
+    @Test
+    public void addWhenZeroLength() {
+        list = new SimpleArrayList<>(0);
+        list.add(1);
+        Assert.assertEquals(1, list.size());
+    }
 }
