@@ -68,7 +68,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public V get(K key) {
         V rsl = null;
         int i = indexFor(hash((key == null) ? 0 : key.hashCode()));
-        if (table[i] != null) {
+        if (table[i] != null && ((table[i].key != null && key.equals(table[i].key))
+                || (table[i].key == null && key == null))) {
             rsl = table[i].value;
         }
         return rsl;
@@ -79,7 +80,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
         boolean rsl = false;
         int hashCode = (key == null) ? 0 : key.hashCode();
         int i = indexFor(hash(hashCode));
-        if (table[i] != null) {
+        if (table[i] != null && ((table[i].key != null && key.equals(table[i].key))
+                || (table[i].key == null && key == null))) {
             table[i] = null;
             rsl = true;
             count--;
@@ -93,6 +95,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         return new Iterator<K>() {
             private int point = 0;
             private int expectedModCount = modCount;
+            private int expectedCount = 0;
 
             @Override
             public boolean hasNext() {
@@ -107,9 +110,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
             @Override
             public K next() {
-                if (!hasNext()) {
+                if (!hasNext() && expectedCount <= count) {
                     throw new NoSuchElementException();
                 }
+                expectedCount++;
                 return table[point++].key;
             }
         };

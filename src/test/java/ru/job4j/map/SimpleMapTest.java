@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -78,6 +80,15 @@ public class SimpleMapTest {
         Map<String, String> map = new SimpleMap<>();
         Iterator<String> iterator = map.iterator();
         map.put("Semen", "Semenov, Semen, Semenovich");
+        iterator.next();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenNextIterator() {
+        Map<String, String> map = new SimpleMap<>();
+        map.put("Semen", "Semenov, Semen, Semenovich");
+        Iterator<String> iterator = map.iterator();
+        iterator.next();
         iterator.next();
     }
 }
