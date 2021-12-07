@@ -49,7 +49,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int indexFor(int hash) {
-        return (table.length - 1) & hash;
+        return (capacity - 1) & hash;
     }
 
     private void expand() {
@@ -102,10 +102,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (modCount != expectedModCount) {
                     throw new ConcurrentModificationException();
                 }
-                while (point < table.length && table[point] == null) {
+                while (point < capacity && table[point] == null) {
                     point++;
                 }
-                return point < table.length && table[point] != null;
+                return point < capacity && table[point] != null;
             }
 
             @Override
