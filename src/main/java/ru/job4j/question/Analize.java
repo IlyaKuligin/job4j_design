@@ -1,6 +1,6 @@
 package ru.job4j.question;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -11,24 +11,26 @@ public class Analize {
         int added = 0;
         int changed = 0;
         int deleted = 0;
-        Map<Integer, String> previousMap = previous.stream()
+        Map<Integer, String> commonMap = new HashMap<>(previous.stream()
                 .collect(Collectors.toMap(
                         User::getId,
                         User::getName
-                ));
-        Map<Integer, String> currentMap = current.stream()
+                )));
+        commonMap.putAll(current.stream()
                 .collect(Collectors.toMap(
                         User::getId,
                         User::getName
-                ));
-        Set<Integer> commonSetId = new HashSet<>(previousMap.keySet());
-        commonSetId.addAll(currentMap.keySet());
-        added = Math.max(commonSetId.size() - previous.size(), 0);
-        for (Integer id : previousMap.keySet()) {
-            if (!currentMap.containsKey(id)) {
-                deleted++;
-            } else if (!currentMap.get(id).equals(previousMap.get(id))) {
+                )));
+        added = Math.max(commonMap.size() - previous.size(), 0);
+        for (User user : previous) {
+            if (commonMap.containsKey(user.getId())
+                    && !commonMap.get(user.getId()).equals(user.getName())) {
                 changed++;
+            }
+            if (!current.stream()
+                    .map(User::getId)
+                    .collect(Collectors.toSet()).contains(user.getId())) {
+                deleted++;
             }
         }
         return new Info(added, changed, deleted);
