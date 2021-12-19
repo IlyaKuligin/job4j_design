@@ -20,7 +20,9 @@ public class Config {
     public void load() {
         try (BufferedReader read = new BufferedReader(new FileReader(this.path))) {
             values.putAll(read.lines()
-                    .filter(e -> !e.startsWith("#") /*&& !e.isEmpty()*/)
+                    .filter(e -> !e.startsWith("#")
+                            && e.contains("=")
+                            && e.indexOf('=') == e.lastIndexOf('='))
                     .map(e -> e.split("="))
                     .filter(e -> e.length == 2)
                     .collect(Collectors.toMap(e -> e[0], e -> e[1])));

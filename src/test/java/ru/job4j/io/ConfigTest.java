@@ -43,4 +43,13 @@ public class ConfigTest {
         assertThat(config.value("hibernate.connection.url"),
                 is("jdbc:postgresql://127.0.0.1:5432/trackstudio"));
     }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void whenVeryIncorrectFile() {
+        String path = "./data/very_incorrect_file.properties";
+        Config config = new Config(path);
+        config.load();
+        assertThat(config.value("hibernate.connection.url"),
+                is("=jdbc:postgresql://127.0.0.1:5432/trackstudio"));
+    }
 }
