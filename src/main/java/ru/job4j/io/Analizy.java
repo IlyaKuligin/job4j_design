@@ -19,7 +19,7 @@ public class Analizy {
                             }
                             if ((!s.startsWith("500") && !s.startsWith("400"))
                                     && (prev.startsWith("500")) || prev.startsWith("400")) {
-                                out.print(s.split(" ")[1] + ";" + "\n");
+                                out.println(s.split(" ")[1] + ";");
                             }
                             prev = s;
                         }
