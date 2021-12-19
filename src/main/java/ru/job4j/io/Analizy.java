@@ -1,32 +1,31 @@
 package ru.job4j.io;
 
 import java.io.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 public class Analizy {
-
     public void unavailable(String source, String target) {
-        StringBuilder rsl = new StringBuilder();
-        List<String> values = new ArrayList<>();
-        try (BufferedReader read = new BufferedReader(new FileReader(source))) {
-            values = read.lines().collect(Collectors.toList());
+        try (BufferedReader in = new BufferedReader(new FileReader(source));
+             PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
+            in.lines()
+                    .peek(new Consumer<>() {
+                        private String prev = "0";
+
+                        @Override
+                        public void accept(String s) {
+                            if ((s.startsWith("500") || s.startsWith("400"))
+                                    && (!prev.startsWith("500")) && !prev.startsWith("400")) {
+                                out.print(s.split(" ")[1] + ";");
+                            }
+                            if ((!s.startsWith("500") && !s.startsWith("400"))
+                                    && (prev.startsWith("500")) || prev.startsWith("400")) {
+                                out.print(s.split(" ")[1] + ";" + "\n");
+                            }
+                            prev = s;
+                        }
+                    })
+                    .count();
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (int i = 1; i < values.size(); i++) {
-            if ((values.get(i).startsWith("500") || values.get(i).startsWith("400"))
-                && (!values.get(i - 1).startsWith("500") && !values.get(i - 1).startsWith("400"))) {
-                rsl.append(values.get(i).split(" ")[1]).append(";");
-            }
-            if ((!values.get(i).startsWith("500") && !values.get(i).startsWith("400"))
-                    && (values.get(i - 1).startsWith("500") || values.get(i - 1).startsWith("400"))) {
-                rsl.append(values.get(i).split(" ")[1]).append(";").append("\n");
-            }
-        }
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
-            out.println(rsl);
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
