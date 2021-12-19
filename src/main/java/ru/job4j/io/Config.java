@@ -34,9 +34,8 @@ public class Config {
     public String value(String key) {
         if (!values.containsKey(key)) {
             throw new IllegalArgumentException("Значение ключа " + key + " не найдено");
-        } else {
-            return values.get(key);
         }
+        return values.get(key);
     }
 
     @Override
