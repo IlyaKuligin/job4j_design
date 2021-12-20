@@ -14,11 +14,11 @@ public class Analizy {
                         @Override
                         public void accept(String s) {
                             if ((s.startsWith("500") || s.startsWith("400"))
-                                    && (!prev.startsWith("500")) && !prev.startsWith("400")) {
+                                    && ((!prev.startsWith("500")) && !prev.startsWith("400"))) {
                                 out.print(s.split(" ")[1] + ";");
                             }
                             if ((!s.startsWith("500") && !s.startsWith("400"))
-                                    && (prev.startsWith("500")) || prev.startsWith("400")) {
+                                    && ((prev.startsWith("500")) || prev.startsWith("400"))) {
                                 out.println(s.split(" ")[1] + ";");
                             }
                             prev = s;
