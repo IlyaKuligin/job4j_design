@@ -16,10 +16,17 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
         FileProperty fileProperty = new FileProperty(file.toFile().length(), file.toFile().getName());
         if (map.containsKey(fileProperty)) {
             map.get(fileProperty).add(file);
-            map.get(fileProperty).forEach(System.out::println);
         } else {
             map.put(fileProperty, new ArrayList<>(List.of(file)));
         }
         return super.visitFile(file, attrs);
+    }
+
+    public void printDublicate()  {
+        for (FileProperty fp : map.keySet()) {
+            if (map.get(fp).size() > 1) {
+                map.get(fp).forEach(System.out::println);
+            }
+        }
     }
 }
