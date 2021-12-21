@@ -11,10 +11,10 @@ import java.util.function.Predicate;
 public class Search {
 
     public static void main(String[] args) throws IOException {
-        search(validateParameters(args), p -> p.toFile().getName().endsWith(args[1])).forEach(System.out::println);
+        search(validateParameters(args), p -> p.toFile().getName().endsWith('.' + args[1])).forEach(System.out::println);
     }
 
-    public static Path validateParameters(String[] args) {
+    private static Path validateParameters(String[] args) {
         if (args.length < 2) {
             throw new IllegalArgumentException(
                     "Root folder or file format is null. Usage java -jar dir.jar ROOT_FOLDER FILE_FORMAT.");
