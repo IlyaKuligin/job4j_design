@@ -26,11 +26,7 @@ public class Zip {
         }
     }
 
-    private static Path validateParameters(String[] args) {
-        if (args.length < 2) {
-            throw new IllegalArgumentException(
-                    "Root folder or file format is null. Usage java -jar dir.jar ROOT_FOLDER FILE_FORMAT.");
-        }
+    private static Path validateParameters(ArgsName argsName) {
         Path start = Paths.get(argsName.get("d"));
         if (!Files.exists(start)) {
             throw new IllegalArgumentException(String.format("Not exist %s", start.toAbsolutePath()));
@@ -42,11 +38,15 @@ public class Zip {
     }
 
     public static void main(String[] args) {
+        if (args.length < 3) {
+            throw new IllegalArgumentException(
+                    "Incorrectly entered arguments. Usage java -jar pack.jar -d=ROOT_FOLDER -e=FILE_FORMAT -o=END_FOLDER.zip");
+        }
         List<File> fileList = new ArrayList<>();
         argsName = ArgsName.of(args);
         try {
             Search.search(
-                    validateParameters(args),
+                    validateParameters(argsName),
                     p -> !p.toFile().getName().endsWith('.' + argsName.get("e"))
             ).forEach(e -> fileList.add(e.toFile()));
             packFiles(fileList, new File(argsName.get("o")));
