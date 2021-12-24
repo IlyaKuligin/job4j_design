@@ -28,13 +28,13 @@ public class ConsoleChat {
         while (exitStatus != 1) {
             String s = input.nextLine();
             log.add(s);
-            if (s.equals(STOP)) {
+            if (STOP.equals(s)) {
                 int stopStatus = 0;
                 while (stopStatus != 1) {
                     s = input.nextLine();
-                    if (!s.equals(CONTINUE) && !s.equals(OUT)) {
+                    if (!CONTINUE.equals(s) && !OUT.equals(s)) {
                         log.add(s);
-                    } else if (s.equals(OUT)) {
+                    } else if (OUT.equals(s)) {
                         break;
                     } else {
                         log.add(s);
@@ -42,7 +42,7 @@ public class ConsoleChat {
                     }
                 }
             }
-            if (!s.equals(OUT)) {
+            if (!OUT.equals(s)) {
                 String botAnswer = phrases.get((int) (Math.random() * (phrases.size())));
                 System.out.println(botAnswer);
                 log.add(botAnswer);
