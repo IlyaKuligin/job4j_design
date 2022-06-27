@@ -17,15 +17,12 @@ public class UsageLog4j {
         boolean booleanRandomValue = false;
         char charRandomValue = 'a';
 
-        LOG.debug("Primitive variables: "
-                        + "byteRandomValue: {}, "
-                        + "shortRandomValue : {}, "
-                        + "intRandomValue : {}, "
-                        + "longRandomValue: {}, "
-                        + "floatRandomValue : {}, "
-                        + "doubleRandomValue : {}, "
-                        + "booleanRandomValue: {}, "
-                        + "charRandomValue: {} ",
+        StringBuilder patternVar = new StringBuilder();
+        patternVar.append("Primitive variables: byteRandomValue: {}, shortRandomValue : {}, ");
+        patternVar.append("intRandomValue : {}, longRandomValue: {}, floatRandomValue : {}, ");
+        patternVar.append("doubleRandomValue : {}, booleanRandomValue: {}, charRandomValue: {} ");
+
+        LOG.debug(patternVar.toString(),
                 byteRandomValue,
                 shortRandomValue,
                 intRandomValue,
