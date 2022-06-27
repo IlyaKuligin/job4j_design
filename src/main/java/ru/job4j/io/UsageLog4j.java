@@ -8,10 +8,31 @@ public class UsageLog4j {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        byte byteRandomValue = 124;
+        short shortRandomValue = 32711;
+        int intRandomValue = 2147483111;
+        long longRandomValue = 9223372036854775807L;
+        float floatRandomValue = 3.4e+38f;
+        double doubleRandomValue = 1.7e+308;
+        boolean booleanRandomValue = false;
+        char charRandomValue = 'a';
+
+        LOG.debug("Primitive variables: " +
+                "byteRandomValue: {}, " +
+                "shortRandomValue : {}, " +
+                "intRandomValue : {}, " +
+                "longRandomValue: {}, " +
+                "floatRandomValue : {}, " +
+                "doubleRandomValue : {}, " +
+                "booleanRandomValue: {}, " +
+                "charRandomValue: {}, ",
+                byteRandomValue,
+                shortRandomValue,
+                intRandomValue,
+                longRandomValue,
+                floatRandomValue,
+                doubleRandomValue,
+                booleanRandomValue,
+                charRandomValue);
     }
 }
