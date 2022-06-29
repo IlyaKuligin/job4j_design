@@ -1,13 +1,28 @@
 package ru.job4j.serialization.json;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.*;
+import java.io.StringWriter;
 import java.util.Arrays;
 
+@XmlRootElement(name = "car")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Car {
-    private final boolean availability;
-    private final String color;
-    private final int speed;
-    private final Transmission transmission;
-    private final String[] statuses;
+    @XmlAttribute
+    private boolean availability;
+    @XmlAttribute
+    private String color;
+    @XmlAttribute
+    private int speed;
+    private Transmission transmission;
+    @XmlElementWrapper(name = "statuses")
+    @XmlElement(name = "status")
+    private String[] statuses;
+
+    public Car() {
+    }
 
     public Car(boolean availability, String color, int speed, Transmission transmission, String[] statuses) {
         this.availability = availability;

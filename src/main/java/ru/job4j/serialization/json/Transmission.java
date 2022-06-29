@@ -1,8 +1,17 @@
 package ru.job4j.serialization.json;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "transmission")
 public class Transmission {
-    private final String type;
-    private final int numberGears;
+    @XmlAttribute
+    private String type;
+    @XmlAttribute
+    private int numberGears;
+
+    public Transmission() {
+    }
 
     public Transmission(String type, int numberGears) {
         this.type = type;
