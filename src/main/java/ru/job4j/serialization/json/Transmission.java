@@ -11,9 +11,9 @@ public class Transmission {
 
     @Override
     public String toString() {
-        return "Transmission{" +
-                "type='" + type + '\'' +
-                ", numberGears=" + numberGears +
-                '}';
+        return "Transmission{"
+                + "type='" + type + '\''
+                + ", numberGears=" + numberGears
+                + '}';
     }
 }

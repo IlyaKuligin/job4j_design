@@ -19,12 +19,12 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car{" +
-                "availability=" + availability +
-                ", color='" + color + '\'' +
-                ", speed=" + speed +
-                ", transmission=" + transmission +
-                ", statuses=" + Arrays.toString(statuses) +
-                '}';
+        return "Car{"
+                + "availability=" + availability
+                + ", color='" + color + '\''
+                + ", speed=" + speed
+                + ", transmission=" + transmission
+                + ", statuses=" + Arrays.toString(statuses)
+                + '}';
     }
 }
