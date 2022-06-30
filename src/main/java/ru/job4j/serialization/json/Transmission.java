@@ -18,6 +18,14 @@ public class Transmission {
         this.numberGears = numberGears;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public int getNumberGears() {
+        return numberGears;
+    }
+
     @Override
     public String toString() {
         return "Transmission{"

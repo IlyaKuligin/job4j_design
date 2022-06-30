@@ -32,6 +32,26 @@ public class Car {
         this.statuses = statuses;
     }
 
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public Transmission getTransmission() {
+        return transmission;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
+    }
+
     @Override
     public String toString() {
         return "Car{"

@@ -29,4 +29,6 @@ public class Main {
         final Car carMod = gson.fromJson(carJson, Car.class);
         System.out.println(carMod);
     }
+
+
 }
