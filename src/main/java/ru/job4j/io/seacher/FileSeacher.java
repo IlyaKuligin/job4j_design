@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.regex.Pattern;
 
 public class FileSeacher {
 
@@ -17,10 +18,11 @@ public class FileSeacher {
         SeachVisitor searcher;
         if ("name".equals(t)) {
             searcher = new SeachVisitor(p -> p.toFile().getName().equals(n));
-        } else if ("mask".equals(t)) {
-            searcher = new SeachVisitor(p -> p.toFile().getName().contains(n));
         } else {
-            throw new IllegalArgumentException("Некорректно введен аргумент \"тип поиска\"");
+            String replaceStr = n
+                    .replace("*", "\\w+")
+                    .replace("?", "\\w");
+            searcher = new SeachVisitor(p -> Pattern.compile(replaceStr).matcher(p.toFile().getName()).find());
         }
         Files.walkFileTree(start, searcher);
         String fileRsl = searcher.getFile();
@@ -46,6 +48,12 @@ public class FileSeacher {
             if (parametrs.length != 2) {
                 throw new IllegalArgumentException("Некорректно введены аргументы");
             }
+        }
+        if (!Files.isDirectory(Path.of(args[0].split("=")[1]))) {
+            throw new IllegalArgumentException("Неккоректно указано начало поиска");
+        }
+        if (!"name".equals(args[2].split("=")[1]) && !"mask".equals(args[2].split("=")[1])) {
+            throw new IllegalArgumentException("Некорректно введен аргумент \"тип поиска\"");
         }
         return true;
     }
