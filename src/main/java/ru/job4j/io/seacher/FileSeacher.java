@@ -16,9 +16,9 @@ public class FileSeacher {
         Path start = Paths.get(d);
         SeachVisitor searcher;
         if ("name".equals(t)) {
-            searcher= new SeachVisitor(p -> p.toFile().getName().equals(n));
+            searcher = new SeachVisitor(p -> p.toFile().getName().equals(n));
         } else if ("mask".equals(t)) {
-            searcher= new SeachVisitor(p -> p.toFile().getName().contains(n));
+            searcher = new SeachVisitor(p -> p.toFile().getName().contains(n));
         } else {
             throw new IllegalArgumentException("Некорректно введен аргумент \"тип поиска\"");
         }
