@@ -1,0 +1,2 @@
+C:\seachertest\newfile1.txt
+C:\seachertest\newfile2.txt
