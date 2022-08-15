@@ -20,7 +20,7 @@ public class TableEditor implements AutoCloseable {
         try {
             Class.forName(properties.getProperty("hibernate.connection.driver_class"));
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Ошибка, класс не найден: " + e);
         }
         String url = properties.getProperty("hibernate.connection.url");
         String login = properties.getProperty("hibernate.connection.username");
@@ -29,7 +29,7 @@ public class TableEditor implements AutoCloseable {
             Connection connection = DriverManager.getConnection(url, login, password);
             this.connection = connection;
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Ошибка при подключении к БД: " + e);
         }
     }
 
@@ -37,16 +37,15 @@ public class TableEditor implements AutoCloseable {
         try (Statement statement = connection.createStatement()) {
             statement.execute(sqlFormat);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Ошибка доступа к БД: " + e);
         }
     }
 
     public void createTable(String tableName) {
         statementExecute(String.format(
-                "create table if not exists %s(%s, %s);",
+                "create table if not exists %s(%s);",
                 tableName,
-                "id serial primary key",
-                "name text")
+                "id serial primary key")
         );
     }
 
@@ -116,22 +115,16 @@ public class TableEditor implements AutoCloseable {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        TableEditor tableEditor = new TableEditor(config);
-
-        tableEditor.createTable("tabl");
-        System.out.println(getTableScheme(tableEditor.connection, "tabl"));
-
-        tableEditor.addColumn("tabl", "new_column", "int");
-        System.out.println(getTableScheme(tableEditor.connection, "tabl"));
-
-        tableEditor.renameColumn("tabl", "new_column", "new_column_v2");
-        System.out.println(getTableScheme(tableEditor.connection, "tabl"));
-
-        tableEditor.dropColumn("tabl", "new_column_v2");
-        System.out.println(getTableScheme(tableEditor.connection, "tabl"));
-
-        tableEditor.dropTable("tabl");
-
-        tableEditor.close();
+        try (TableEditor tableEditor = new TableEditor(config)) {
+            tableEditor.createTable("tabl");
+            System.out.println(getTableScheme(tableEditor.connection, "tabl"));
+            tableEditor.addColumn("tabl", "new_column", "int");
+            System.out.println(getTableScheme(tableEditor.connection, "tabl"));
+            tableEditor.renameColumn("tabl", "new_column", "new_column_v2");
+            System.out.println(getTableScheme(tableEditor.connection, "tabl"));
+            tableEditor.dropColumn("tabl", "new_column_v2");
+            System.out.println(getTableScheme(tableEditor.connection, "tabl"));
+            tableEditor.dropTable("tabl");
+        }
     }
 }
