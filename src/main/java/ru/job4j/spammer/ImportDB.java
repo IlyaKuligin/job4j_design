@@ -24,6 +24,9 @@ public class ImportDB {
                 if (elements.length != 2) {
                     throw new IllegalArgumentException("Некорректное число аргументов в файле");
                 }
+                if (elements[0].isBlank() || elements[1].isBlank()) {
+                    throw new IllegalArgumentException("Некорректно указаны аргументы в файле");
+                }
                 users.add(new User(elements[0], elements[1]));
             });
         }
